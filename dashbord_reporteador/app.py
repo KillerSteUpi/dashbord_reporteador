@@ -2,6 +2,7 @@ import streamlit as st
 import pandas as pd
 import plotly.express as px
 from fpdf import FPDF
+import os
 import io
 
 # Configuración de la página
@@ -83,7 +84,9 @@ def generar_pdf(registro):
 def cargar_datos():
     try:
         # Lee el archivo asegurando que ID sea string para evitar problemas
-        df = pd.read_excel("seguimiento_procesos.xlsx", dtype={'ID_Proceso': str})
+        BASE_DIR= os.path.dirname(os.path.abspath(__file__))
+        ruta_excel=os.path.join(BASE_DIR,"seguimiento_procesos.xlsx")
+        df = pd.read_excel(ruta_excel, dtype={'ID_Proceso': str})
         df.columns = df.columns.str.strip()
         df['Fecha_Inicio'] = pd.to_datetime(df['Fecha_Inicio'])
         df['Fecha_Compromiso'] = pd.to_datetime(df['Fecha_Compromiso'])
